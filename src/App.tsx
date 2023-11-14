@@ -4,18 +4,21 @@ import MainPage from "./Components/MainPage.tsx";
 import './App.css'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import {NameProvider} from "./Context/loginContext.tsx";
+import Category from "./Components/Category.tsx";
 function App() {
     return (
         <>
-            <Router>
-                <Routes>
-                    <Route path="/" element={<MainPage />} />
-                    <NameProvider>
-                        <Route path="/signUp" element={<SignUp />} />
-                        <Route path="SignIn" element={<SignIn/>}/>
-                    </NameProvider>
-                </Routes>
+            
+        <NameProvider>
+           <Router>
+               <Routes>
+                    <Route path="/" element={<MainPage/>}/>
+                    <Route path="/category/:category" element={<Category/>}/>
+                    <Route path="/signUp" element={<SignUp/>}/>
+                    <Route path="/signIn" element={<SignIn/>}/>
+               </Routes>
             </Router>
+        </NameProvider>
         </>
     )
 }
