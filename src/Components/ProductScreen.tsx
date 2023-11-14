@@ -1,26 +1,41 @@
-// import React from "react";
+import { useEffect, useState } from "react";
 
-// type Props = {};
+function ProductScreen() {
+  const [product, setProduct] = useState<any>(null);
+  const id = "1";
 
-// async function ProductScreen({}: Props) {
-//   const id = "3";
-//   const fetchProduct = await fetch(`http://${id}`);
-//   const product = await fetchProduct.json();
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:3000/api/products/spesific/${id}`
+        );
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const data = await response.json();
+        setProduct(data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
 
-//   return (
-//     <div className="product-screen">
-//       <div className="product-details">
-//         <h1>{product.name}</h1>
-//         <p>{product.category}</p>
-//         <p>${product.price}</p>
-//         <p>{product.popularity}</p>
-//       </div>
+    fetchData();
+  }, []);
 
-//       <button className="add-to-cart-btn" onClick={addToCart}>
-//         Add to Cart
-//       </button>
-//     </div>
-//   );
-// }
+  if (!product) {
+    return <div>Loading...</div>;
+  }
 
-// export default ProductScreen;
+  return (
+    <div className="product-screen">
+      <div className="product-details">
+        <h1>{product.name}</h1>
+        <p>${product.price}</p>
+        <p>popularity: {product.popularity}</p>
+      </div>
+    </div>
+  );
+}
+
+export default ProductScreen;
