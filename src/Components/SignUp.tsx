@@ -14,7 +14,7 @@ interface User {
 const signUp: SubmitHandler<User> = async user => {
     try {
         const newUserRes = await fetch(
-            'http://localhost:3000/api/users',
+            'http://localhost:3000/api/users/register',
             {
                 headers: {"content-Type": "application/json"},
                 method: 'post',

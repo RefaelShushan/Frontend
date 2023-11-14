@@ -19,17 +19,18 @@ const signIn: SubmitHandler<User> = async user => {
     const { setName } = nameContext;
     try {
         const userRes = await fetch(
-            'http://localhost:3000/api/users',
+            'http://localhost:3000/api/users/login',
             {
                 headers: {"content-Type": "application/json"},
                 method: 'post',
                 body: JSON.stringify(user)
             }
         )
-        const newUser: User = await userRes.json();
-        if (!newUser) throw new Error('login failed');
+        const users: User[] = await userRes.json();
+        if (!user) throw new Error('login failed');
+        if (!users.includes(user)) throw new Error('login failed');
         setName(user.username);
-        console.log(newUser);
+        console.log(user);
     }catch (error){
         console.log(error);
     }
