@@ -7,7 +7,7 @@ const NavBar = (props: Props) => {
         <Box sx={{
             width: 1150,
             height: 70,
-            background: 'black',
+            background: 'blue',
             color: 'gold',
             display: 'flex',
             alignItems: 'center',
@@ -18,4 +18,4 @@ const NavBar = (props: Props) => {
     )
 }
 
-// export default NavBar
+export default NavBar
