@@ -9,6 +9,9 @@ export default function MainPage() {
       <Link to={"SignIn"} className="linkButton">
         signIn
       </Link>
+      {/* <Link to={"category/:category"} className="linkButton">
+        Category
+      </Link> */}
       <Link to={"productScreen"} className="linkButton">
         ProductScreen
       </Link>
