@@ -13,31 +13,32 @@ interface User {
 }
 
 const signIn: SubmitHandler<User> = async user => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const nameContext = useContext(Name)
     if (!nameContext) return;
     const { setName } = nameContext;
     try {
-        const newUserRes = await fetch(
-            'http://new',
+        const userRes = await fetch(
+            'http://localhost:3000/api/users/login',
             {
                 headers: {"content-Type": "application/json"},
                 method: 'post',
                 body: JSON.stringify(user)
             }
         )
-        const newUser: User = await newUserRes.json();
-        if (!newUser) throw new Error('registration failed');
+        const users: User[] = await userRes.json();
+        if (!user) throw new Error('login failed');
+        if (!users.includes(user)) throw new Error('login failed');
         setName(user.username);
-        console.log(newUser);
+        console.log(user);
     }catch (error){
         console.log(error);
     }
-    const navigate = useNavigate();
-    const location = useLocation();
-    navigate(location.state?.from || "/");
 }
 export default function SignIn() {
     const { register, formState: { errors }, handleSubmit } = useForm<User>();
+    const navigate = useNavigate();
+    const location = useLocation();
     return (
         <>
             <form onSubmit={handleSubmit(signIn)}>
@@ -82,7 +83,7 @@ export default function SignIn() {
                         render={({ message }) => <p>{message}</p>}
                     />}
                 </div>
-                <Button type="submit">Sign In</Button>
+                <Button onClick={() => navigate(location.state?.from || "/")} type="submit">Sign In</Button>
             </form>
             <Link to={'/signUp'}>sign up</Link>
         </>
