@@ -3,13 +3,13 @@ import { useParams } from "react-router-dom";
 
 function ProductScreen() {
   const [product, setProduct] = useState<any>(null);
-  const params = useParams();
-  // const params = 1;
+  const {paramsProduct} = useParams();
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3000/api/products/spesific/${params.id}`
+          `http://localhost:3000/api/products/spesific/${paramsProduct}`
         );
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -21,9 +21,10 @@ function ProductScreen() {
       }
     };
     fetchData();
-  }, [params.id]); // Add 'id' to the dependency array to refetch data when 'id' changes
+  }, [paramsProduct]);
 
   const handleAddToCart = () => {
+    
     console.log("Added to cart:", product);
   };
 
@@ -39,10 +40,12 @@ function ProductScreen() {
     <div className="product-screen">
       <div className="product-details">
         <h1>{product.name}</h1>
+        <p>${product.price}</p>
         {Object.entries(product).map(([key, value]) =>
           key !== "id" &&
           key !== "_id" &&
           key !== "name" &&
+          key !== "price" &&
           key !== "category" ? (
             key === "image_link" ? null : (
               <div key={key}>
