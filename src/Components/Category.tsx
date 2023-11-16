@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Box, Typography } from "@mui/material";
 import { Link, useParams } from "react-router-dom";
+import ButtonAppBar from "./header";
 
 interface Product {
   id: string;
@@ -37,6 +38,7 @@ export default function Category() {
 
   return (
     <>
+    <Link to={"/"} className="linkButton"><ButtonAppBar/> </Link>
       {products.map((product) => (
         <Link key={product.id} to={`/product/${product.id}`}>
           <Box

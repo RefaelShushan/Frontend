@@ -48,6 +48,8 @@ import { Link } from "react-router-dom";
 import { useContext } from 'react';
 import { Name } from '../Context/loginContext';
 
+import IconCart from '../Icon/IconCart';
+
 function DisplayUserName() {
   const userContext = useContext(Name);
   
@@ -77,10 +79,10 @@ export default function ButtonAppBar() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            <SvgIconsSize /> 
+            <SvgIconsSize />
           </Typography>
-       
-           <Button><Link to={"/signUp"} className="linkButton" style={{ color: 'white' }}>signUp </Link></Button><Button><Link to={"/signIn"} className="linkButton"style={{ color: 'white' }}> signIn </Link>  </Button>
+          <Button><Link to={"/cart"} className="linkButton" style={{ color: 'white' }}> <IconCart /> </Link></Button>
+         <Button><Link to={"/signUp"} className="linkButton" style={{ color: 'white' }}>signUp </Link></Button><Button><Link to={"/signIn"} className="linkButton"style={{ color: 'white' }}> signIn </Link>  </Button>
            {DisplayUserName()}
         </Toolbar>
       </AppBar>
