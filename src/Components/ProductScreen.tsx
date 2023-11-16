@@ -1,5 +1,10 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import ButtonAppBar from "./header";
+import { Link } from "react-router-dom";
+import { MapComponent } from "./OpenLairs";
+
+
 
 function ProductScreen() {
   const [product, setProduct] = useState<any>(null);
@@ -39,6 +44,7 @@ function ProductScreen() {
   return (
     <div className="product-screen">
       <div className="product-details">
+      <Link to={"/"} className="linkButton"><ButtonAppBar/> </Link>
         <h1>{product.name}</h1>
         <p>${product.price}</p>
         {Object.entries(product).map(([key, value]) =>
@@ -69,6 +75,7 @@ function ProductScreen() {
         <button onClick={handleAddToCart}>Add to cart</button>
         <button onClick={handleCompare}>Comparison</button>
       </div>
+      <MapComponent/>
     </div>
   );
 }
