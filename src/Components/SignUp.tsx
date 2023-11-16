@@ -5,7 +5,7 @@ import { useNavigate,useLocation } from "react-router-dom";
 
 
 interface User {
-    username: string;
+    name: string;
     email: string;
     password:string;
     confirmPassword: string
@@ -39,19 +39,18 @@ export default function SignUp() {
             <div>
                 <TextField
                     type="text"
-                    id="username"
-                    //name="username"
-                    placeholder='Enter UserName'
-                    {...register("username", {
+                    id="name"
+                    placeholder='Enter your Name'
+                    {...register("name", {
                         required: `User name is required`,
                         minLength: {
                             value: 2,
                             message: `Minimum 2 chars`}
                     })}
                 />
-                {errors.username && <ErrorMessage
+                {errors.name && <ErrorMessage
                     errors={errors}
-                    name="username"
+                    name="name"
                     render={({ message }) => <p>{message}</p>}
                 />}
             </div>
