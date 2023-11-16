@@ -5,32 +5,33 @@ import { useNavigate,useLocation } from "react-router-dom";
 
 
 interface User {
-    username: string;
+    name: string;
     email: string;
     password:string;
     confirmPassword: string
 }
-
-const signUp: SubmitHandler<User> = async user => {
-    try {
-        const newUserRes = await fetch(
-            'http://localhost:3000/api/users/register',
-            {
-                headers: {"content-Type": "application/json"},
-                method: 'post',
-                body: JSON.stringify(user)
-            }
-        )
-        const newUser: User = await newUserRes.json();
-        if (!newUser) throw new Error('registration failed');
-        console.log(newUser)
-    }catch (error){
-        console.log(error);
-    }
-}
 export default function SignUp() {
     const navigate = useNavigate();
     const location = useLocation();
+    const signUp: SubmitHandler<User> = async (user: User) => {
+        console.log(JSON.stringify(user))
+        try {
+            const newUserRes = await fetch(
+                'http://localhost:3000/api/users/register',
+                {
+                    headers: {"content-Type": "application/json"},
+                    method: 'post',
+                    body: JSON.stringify(user)
+                }
+            )
+            console.log(newUserRes)
+            if (!newUserRes.ok) throw new Error('registration failed');
+            console.log(newUserRes)
+            navigate(location.state?.from || "/")
+        }catch (error){
+            console.log(error);
+        }
+    }
     const { register, watch, formState: { errors }, handleSubmit } = useForm<User>();
     const password = watch("password");
     return (
@@ -38,19 +39,18 @@ export default function SignUp() {
             <div>
                 <TextField
                     type="text"
-                    id="username"
-                    //name="username"
-                    placeholder='Enter UserName'
-                    {...register("username", {
+                    id="name"
+                    placeholder='Enter your Name'
+                    {...register("name", {
                         required: `User name is required`,
                         minLength: {
                             value: 2,
                             message: `Minimum 2 chars`}
                     })}
                 />
-                {errors.username && <ErrorMessage
+                {errors.name && <ErrorMessage
                     errors={errors}
-                    name="username"
+                    name="name"
                     render={({ message }) => <p>{message}</p>}
                 />}
             </div>
@@ -115,7 +115,7 @@ export default function SignUp() {
                     render={({ message }) => <p>{message}</p>}
                 />}
             </div>
-            <Button onClick={() => navigate(location.state?.from || "/")} type="submit">Sign Up</Button>
+            <Button type="submit">Sign Up</Button>
         </form>
     );
 }

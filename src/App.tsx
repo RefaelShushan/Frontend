@@ -19,7 +19,7 @@ function App() {
             <Route path="/category/:category" element={<Category />} />
             <Route path="/signUp" element={<SignUp />} />
             <Route path="/signIn" element={<SignIn />} />
-            <Route path="productScreen" element={<ProductScreen />} />
+            <Route path="/product/:paramsProduct" element={<ProductScreen />} />
           </Routes>
         </Router>
       </NameProvider>
