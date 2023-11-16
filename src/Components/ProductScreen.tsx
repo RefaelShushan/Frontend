@@ -24,7 +24,7 @@ function ProductScreen() {
   }, [paramsProduct]);
 
   const handleAddToCart = () => {
-
+    
     console.log("Added to cart:", product);
   };
 
