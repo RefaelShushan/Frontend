@@ -1,6 +1,8 @@
 import {Button, TextField} from "@mui/material";
 import { Link } from "react-router-dom";
 import {useState,useEffect} from 'react'
+import ButtonAppBar from "./header";
+
 interface Category {
   id: number;
   name: string;
@@ -65,6 +67,7 @@ export default function MainPage() {
   };
   return (
     <div>
+      <Link to={"/"} className="linkButton"><ButtonAppBar/> </Link>
      <Button> <Link to={"/signUp"} className="linkButton">signUp </Link></Button>
       <Button><Link to={"/signIn"} className="linkButton"> signIn </Link>  </Button>
       <h1>Main Page</h1>
