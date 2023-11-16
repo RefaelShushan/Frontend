@@ -12,33 +12,31 @@ interface User {
     password:string;
 }
 
-const signIn: SubmitHandler<User> = async user => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
+export default function SignIn() {
+    const navigate = useNavigate();
+    const location = useLocation();
     const nameContext = useContext(Name)
     if (!nameContext) return;
     const { setName } = nameContext;
-    try {
-        const userRes = await fetch(
-            'http://localhost:3000/api/users/login',
-            {
-                headers: {"content-Type": "application/json"},
-                method: 'post',
-                body: JSON.stringify(user)
-            }
-        )
-        const users: User[] = await userRes.json();
-        if (!user) throw new Error('login failed');
-        if (!users.includes(user)) throw new Error('login failed');
-        setName(user.username);
-        console.log(user);
-    }catch (error){
-        console.log(error);
+    const signIn: SubmitHandler<User> = async (user: User) => {
+        try {
+            const userRes = await fetch(
+                'http://localhost:3000/api/users/login',
+                {
+                    headers: {"content-Type": "application/json"},
+                    method: 'post',
+                    body: JSON.stringify(user)
+                }
+            )
+            const token = await userRes.text();
+            if (!token) throw new Error('login failed');
+            setName(user.username);
+            navigate(location.state?.from || "/")
+        }catch (error){
+            console.log(error);
+        }
     }
-}
-export default function SignIn() {
     const { register, formState: { errors }, handleSubmit } = useForm<User>();
-    const navigate = useNavigate();
-    const location = useLocation();
     return (
         <>
             <form onSubmit={handleSubmit(signIn)}>
@@ -83,7 +81,7 @@ export default function SignIn() {
                         render={({ message }) => <p>{message}</p>}
                     />}
                 </div>
-                <Button onClick={() => navigate(location.state?.from || "/")} type="submit">Sign In</Button>
+                <Button type="submit">Sign In</Button>
             </form>
             <Link to={'/signUp'}>sign up</Link>
         </>
