@@ -1,0 +1,10 @@
+body {
+  background-color: rgb(232, 151, 151);
+  color: rgb(255, 160, 44);
+}
+
+.divCreateCard {
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+}
