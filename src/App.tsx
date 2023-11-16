@@ -9,7 +9,6 @@ import Category from "./Components/Category.tsx";
 import {EmailProvider} from "./Context/emailContext.tsx";
 import Cart from "./Components/Cart.tsx";
 
-
 function App() {
   return (
     <>
