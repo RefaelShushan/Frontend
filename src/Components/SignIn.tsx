@@ -3,13 +3,11 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import {ErrorMessage} from "@hookform/error-message";
 import {useNavigate, useLocation, Link} from "react-router-dom";
 import {useContext} from "react";
-import {Name, NameContextType} from "../Context/nameContext.tsx";
-
-import {Email, EmailContextType} from "../Context/emailContext.tsx";
+import {Name} from "../Context/loginContext.tsx";
 
 
 interface User {
-    name: string;
+    username: string;
     email: string;
     password:string;
 }
@@ -17,12 +15,9 @@ interface User {
 export default function SignIn() {
     const navigate = useNavigate();
     const location = useLocation();
-    const nameContext = useContext<NameContextType | null>(Name)
+    const nameContext = useContext(Name)
     if (!nameContext) return;
     const { setName } = nameContext;
-    const emailContext = useContext<EmailContextType | null>(Email)
-    if (!emailContext) return;
-    const { setEmail } = emailContext;
     const signIn: SubmitHandler<User> = async (user: User) => {
         try {
             const userRes = await fetch(
@@ -35,8 +30,7 @@ export default function SignIn() {
             )
             const token = await userRes.text();
             if (!token) throw new Error('login failed');
-            setName(user.name);
-            setEmail(user.email);
+            setName(user.username);
             navigate(location.state?.from || "/")
         }catch (error){
             console.log(error);
