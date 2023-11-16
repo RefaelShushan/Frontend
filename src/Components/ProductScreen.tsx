@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
+import {Email} from "../Context/emailContext.tsx";
 import ButtonAppBar from "./header";
 import { Link } from "react-router-dom";
 import { MapComponent } from "./OpenLairs";
@@ -9,7 +10,7 @@ import { MapComponent } from "./OpenLairs";
 function ProductScreen() {
   const [product, setProduct] = useState<any>(null);
   const {paramsProduct} = useParams();
-
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -29,10 +30,27 @@ function ProductScreen() {
   }, [paramsProduct]);
 
   const handleAddToCart = () => {
-    
-    console.log("Added to cart:", product);
+    const emailContext = useContext(Email);
+    if (emailContext) {
+      fetch(`http://localhost:3000/api/users/update/${emailContext.email}`, {
+        method: 'PUT',
+        body: JSON.stringify({ key: product.id }),
+      });
+    } else {
+      const storedValue = localStorage.getItem('cartItems');
+      const existingCart: any[] = storedValue ? JSON.parse(storedValue) : [];
+      const isProductInCart = existingCart.some(item => item.id === product.id);
+      if (!isProductInCart) {
+        const updatedCart = [...existingCart, product];
+        localStorage.setItem('cartItems', JSON.stringify(updatedCart));
+        console.log("Added to cart:", product);
+      } else {
+        console.log("Product is already in the cart");
+      }
+    }
   };
-
+  
+  
   const handleCompare = () => {
     console.log("Added to comparison:", product);
   };
