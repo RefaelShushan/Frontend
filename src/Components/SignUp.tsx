@@ -2,6 +2,8 @@ import {Button, TextField} from "@mui/material";
 import {useForm, SubmitHandler} from "react-hook-form";
 import {ErrorMessage} from "@hookform/error-message";
 import { useNavigate,useLocation } from "react-router-dom";
+import ButtonAppBar from "./header";
+import { Link } from "react-router-dom";
 
 
 interface User {
@@ -35,6 +37,8 @@ export default function SignUp() {
     const { register, watch, formState: { errors }, handleSubmit } = useForm<User>();
     const password = watch("password");
     return (
+        <>
+        <Link to={"/"} className="linkButton"><ButtonAppBar/> </Link>
         <form onSubmit={handleSubmit(signUp)}>
             <div>
                 <TextField
@@ -117,6 +121,7 @@ export default function SignUp() {
             </div>
             <Button type="submit">Sign Up</Button>
         </form>
+        </>
     );
 }
 
