@@ -46,7 +46,7 @@ import SvgIconsSize from '../Icon/IconHome';
 import { Link } from "react-router-dom";
 
 import { useContext } from 'react';
-import { Name } from '../Context/loginContext';
+import { Name } from '../Context/nameContext.tsx';
 
 function DisplayUserName() {
   const userContext = useContext(Name);
