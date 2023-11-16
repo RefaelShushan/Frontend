@@ -1,16 +1,18 @@
 import { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
-import {Email} from "../Context/emailContext.tsx";
+import { Email } from "../Context/emailContext.tsx";
 import ButtonAppBar from "./header";
 import { Link } from "react-router-dom";
 import { MapComponent } from "./OpenLairs";
-
-
+import "../style/ProductScreen.css";
 
 function ProductScreen() {
   const [product, setProduct] = useState<any>(null);
-  const {paramsProduct} = useParams();
-  
+  const { paramsProduct } = useParams();
+  const emailContext = useContext(Email);
+  const { email } = emailContext;
+  console.log(email);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -30,27 +32,30 @@ function ProductScreen() {
   }, [paramsProduct]);
 
   const handleAddToCart = () => {
-    const emailContext = useContext(Email);
-    if (emailContext) {
-      fetch(`http://localhost:3000/api/users/update/${emailContext.email}`, {
-        method: 'PUT',
-        body: JSON.stringify({ key: product.id }),
+    if (email) {
+      const myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      fetch(`http://localhost:3000/api/users/update/${email}`, {
+        method: "PUT",
+        headers: myHeaders,
+        body: JSON.stringify({ id: product.id }),
       });
     } else {
-      const storedValue = localStorage.getItem('cartItems');
+      const storedValue = localStorage.getItem("cartItems");
       const existingCart: any[] = storedValue ? JSON.parse(storedValue) : [];
-      const isProductInCart = existingCart.some(item => item.id === product.id);
+      const isProductInCart = existingCart.some(
+        (item) => item.id === product.id
+      );
       if (!isProductInCart) {
         const updatedCart = [...existingCart, product];
-        localStorage.setItem('cartItems', JSON.stringify(updatedCart));
+        localStorage.setItem("cartItems", JSON.stringify(updatedCart));
         console.log("Added to cart:", product);
       } else {
         console.log("Product is already in the cart");
       }
     }
   };
-  
-  
+
   const handleCompare = () => {
     console.log("Added to comparison:", product);
   };
@@ -62,7 +67,9 @@ function ProductScreen() {
   return (
     <div className="product-screen">
       <div className="product-details">
-      <Link to={"/"} className="linkButton"><ButtonAppBar/> </Link>
+        <Link to={"/"} className="linkButton">
+          <ButtonAppBar />
+        </Link>
         <h1>{product.name}</h1>
         <p>${product.price}</p>
         {Object.entries(product).map(([key, value]) =>
@@ -93,7 +100,7 @@ function ProductScreen() {
         <button onClick={handleAddToCart}>Add to cart</button>
         <button onClick={handleCompare}>Comparison</button>
       </div>
-      <MapComponent/>
+      <MapComponent />
     </div>
   );
 }
