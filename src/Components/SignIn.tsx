@@ -16,9 +16,10 @@ interface User {
 export default function SignIn() {
     const navigate = useNavigate();
     const location = useLocation();
-    const nameContext = useContext<NameContextType | null>(Name)
+    const nameContext = useContext<NameContextType | null>(Name);
     if (!nameContext) return;
     const { setName } = nameContext;
+    console.log(Name)
     const emailContext = useContext<EmailContextType | null>(Email)
     if (!emailContext) return;
     const { setEmail } = emailContext;
