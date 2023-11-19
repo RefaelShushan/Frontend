@@ -18,6 +18,7 @@ export const MapComponent: React.FC = () => {
   const [icon, setIcon] = useState(
     "https://cdn-icons-png.flaticon.com/512/2838/2838912.png"
   );
+  setIcon("https://cdn-icons-png.flaticon.com/512/2838/2838912.png");
   const manualMarkers = [
     [10, 2],
     [8, 3],
