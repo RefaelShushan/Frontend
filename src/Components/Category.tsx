@@ -10,12 +10,8 @@ interface Product {
   price: number;
 }
 
-interface Params {
-  category: string;
-}
-
 export default function Category() {
-  const { category } = useParams<Params>();
+  const { category }: Record<string, string | undefined> = useParams();
   const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
